@@ -15,7 +15,7 @@ data "aws_ami" "app_ami" {
 }
 
 resource "aws_instance" "web" {
-  ami           = data.aws_ami.app_ami.id
+  ami           = "ami-0672c811374206507"
   instance_type = "t3.nano"
 
   tags = {
