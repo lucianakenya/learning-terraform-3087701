@@ -1,18 +1,21 @@
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
+data "aws_ami" "app_ami" {
+  most_recent = true
 
-provider "aws" {
-  region = "us-west-2"
+  filter {
+    name   = "name"
+    values = ["bitnami-tomcat-*-x86_64-hvm-ebs-nami"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["979382823631"] # Bitnami
 }
 
 resource "aws_instance" "web" {
-  ami           = "ami-0672c811374206507"
+  ami           = data.aws_ami.app_ami.id
   instance_type = "t3.nano"
 
   tags = {
